@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Confirmación";
+}
+
+<style>
+    .confirmacion-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 60vh;
+    }
+
+    .confirmacion-card {
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 6px 24px rgba(26,58,107,0.12);
+        padding: 2.5rem 2rem;
+        max-width: 440px;
+        width: 100%;
+        text-align: center;
+        border-top: 5px solid #2563eb;
+    }
+
+    .icono-check {
+        width: 70px;
+        height: 70px;
+        background: #eff6ff;
+        border: 3px solid #bfdbfe;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 1.2rem;
+    }
+
+    .confirmacion-card h2 {
+        color: #1a3a6b;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0 0 1.5rem;
+        line-height: 1.5;
+    }
+
+    .btn-volver {
+        background: #1a3a6b;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 28px;
+        font-size: 0.92rem;
+        font-weight: 600;
+        font-family: inherit;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: background 0.2s, transform 0.15s;
+    }
+
+        .btn-volver:hover {
+            background: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+</style>
+
+<div class="confirmacion-wrapper">
+    <div class="confirmacion-card">
+
+        <div class="icono-check">✅</div>
+
+        <h2>@ViewBag.Mensaje</h2>
+
+        <a asp-action="Index" class="btn-volver">
+            ← Volver a candidatos
+        </a>
+
+    </div>
+</div>

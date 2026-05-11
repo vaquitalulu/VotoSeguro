@@ -1,0 +1,252 @@
+﻿@model List<CapaEntidad.Resultado>
+
+@{
+    ViewData["Title"] = "Resultados";
+}
+
+<style>
+    .resultados-header {
+        background: linear-gradient(135deg, #1a3a6b, #2563eb);
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        color: white;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 32px rgba(26,58,107,0.18);
+    }
+
+    .resultados-header h2 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 0 0 4px;
+        letter-spacing: -0.5px;
+    }
+
+    .resultados-header p {
+        color: rgba(255,255,255,0.75);
+        font-size: 0.9rem;
+        margin: 0;
+    }
+
+    .barra-dorada {
+        height: 4px;
+        background: linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b);
+        border-radius: 2px;
+        margin-bottom: 2rem;
+    }
+
+    /* Tabla */
+    .tabla-resultados {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: #ffffff;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(26,58,107,0.10);
+    }
+
+    .tabla-resultados thead tr {
+        background: linear-gradient(135deg, #1a3a6b, #2563eb);
+        color: white;
+    }
+
+    .tabla-resultados thead th {
+        padding: 16px 20px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        border: none;
+    }
+
+    .tabla-resultados tbody tr {
+        border-bottom: 1px solid #f1f5f9;
+        transition: background 0.15s;
+    }
+
+    .tabla-resultados tbody tr:last-child {
+        border-bottom: none;
+    }
+
+    .tabla-resultados tbody tr:hover {
+        background: #f0f4ff;
+    }
+
+    .tabla-resultados tbody td {
+        padding: 16px 20px;
+        font-size: 0.95rem;
+        color: #1e293b;
+        border: none;
+        vertical-align: middle;
+    }
+
+    /* Posición / ranking */
+    .posicion {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 0.9rem;
+    }
+
+    .pos-1 { background: #fef3c7; color: #d97706; border: 2px solid #fbbf24; }
+    .pos-2 { background: #f1f5f9; color: #475569; border: 2px solid #cbd5e1; }
+    .pos-3 { background: #fef2e7; color: #b45309; border: 2px solid #fcd34d; }
+    .pos-n { background: #f0f4ff; color: #2563eb; border: 2px solid #bfdbfe; }
+
+    /* Nombre candidato */
+    .nombre-candidato {
+        font-weight: 600;
+        color: #1a3a6b;
+    }
+
+    /* Barra de votos */
+    .votos-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .votos-barra-bg {
+        flex: 1;
+        height: 10px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+        min-width: 80px;
+    }
+
+    .votos-barra {
+        height: 100%;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #2563eb, #60a5fa);
+        transition: width 0.6s ease;
+    }
+
+    .votos-numero {
+        font-weight: 800;
+        color: #2563eb;
+        font-size: 1rem;
+        min-width: 28px;
+        text-align: right;
+    }
+
+    /* Badge ganador */
+    .badge-ganador {
+        background: #fef3c7;
+        color: #d97706;
+        border: 1px solid #fbbf24;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        margin-left: 8px;
+    }
+
+    /* Card total */
+    .card-total {
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 8px 32px rgba(26,58,107,0.10);
+        padding: 1.2rem 1.5rem;
+        margin-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .card-total .label {
+        font-size: 0.85rem;
+        color: #64748b;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .card-total .numero {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #1a3a6b;
+    }
+</style>
+
+<!-- Header -->
+<div class="resultados-header">
+    <h2>📊 Resultados de la Votación</h2>
+    <p>Conteo oficial de votos por candidato</p>
+</div>
+<div class="barra-dorada"></div>
+
+<!-- Tabla -->
+@if (Model != null && Model.Count > 0)
+{
+    int maxVotos = 0;
+    foreach (var r in Model)
+    {
+        if (r.TotalVotos > maxVotos) maxVotos = r.TotalVotos;
+    }
+
+    <table class="tabla-resultados">
+        <thead>
+            <tr>
+                <th style="width:60px">#</th>
+                <th>Candidato</th>
+                <th>Votos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int pos = 0;}
+            @foreach (var item in Model)
+            {
+                pos++;
+                string clasePos = pos == 1 ? "pos-1" : pos == 2 ? "pos-2" : pos == 3 ? "pos-3" : "pos-n";
+                int pct = maxVotos > 0 ? (item.TotalVotos * 100 / maxVotos) : 0;
+
+                <tr>
+                    <td>
+                        <div class="posicion @clasePos">@pos</div>
+                    </td>
+                    <td>
+                        <span class="nombre-candidato">@item.Nombre</span>
+                        @if (pos == 1)
+                        {
+                            <span class="badge-ganador">🏆 Ganador</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="votos-wrapper">
+                            <div class="votos-barra-bg">
+                                <div class="votos-barra" style="width: @pct%"></div>
+                            </div>
+                            <span class="votos-numero">@item.TotalVotos</span>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Total votos -->
+    <div class="card-total">
+        <div>
+            <div class="label">Total de votos emitidos</div>
+        </div>
+        <div class="numero">
+            @{int total = 0; foreach (var r in Model) { total += r.TotalVotos; }}
+            @total votos
+        </div>
+    </div>
+}
+else
+{
+    <div style="text-align:center; padding: 3rem; background:#fff; border-radius:14px; box-shadow: 0 8px 32px rgba(26,58,107,0.10);">
+        <div style="font-size:3rem; margin-bottom:1rem;">🗳️</div>
+        <p style="color:#64748b; font-size:1rem; font-weight:500;">Aún no hay votos registrados.</p>
+    </div>
+}

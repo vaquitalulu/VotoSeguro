@@ -1,0 +1,198 @@
+﻿@model List<CapaEntidad.Candidato>
+
+@{
+    ViewData["Title"] = "Candidatos";
+}
+
+<style>
+    .page-header {
+        background: #1a3a6b;
+        border-radius: 12px;
+        padding: 1.5rem 2rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+        .page-header h2 {
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .bienvenido {
+        background: #ffffff;
+        border-left: 4px solid #2563eb;
+        border-radius: 8px;
+        padding: 0.75rem 1.2rem;
+        margin-bottom: 1.5rem;
+        color: #1a3a6b;
+        font-size: 0.95rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 8px rgba(26,58,107,0.08);
+    }
+
+    /* Tabla institucional */
+    .tabla-candidatos {
+        width: 100%;
+        border-collapse: collapse;
+        background: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(26,58,107,0.10);
+        font-size: 0.92rem;
+    }
+
+        .tabla-candidatos thead tr {
+            background: #1a3a6b;
+            color: #ffffff;
+        }
+
+        .tabla-candidatos thead th {
+            padding: 13px 18px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+        }
+
+        .tabla-candidatos tbody tr {
+            border-bottom: 1px solid #e8edf5;
+            transition: background 0.15s;
+        }
+
+            .tabla-candidatos tbody tr:last-child {
+                border-bottom: none;
+            }
+
+            .tabla-candidatos tbody tr:hover {
+                background: #f5f7ff;
+            }
+
+        .tabla-candidatos tbody td {
+            padding: 13px 18px;
+            color: #1e293b;
+            border: none;
+            vertical-align: middle;
+        }
+
+    /* ID badge */
+    .id-badge {
+        background: #e8edf5;
+        color: #1a3a6b;
+        font-weight: 700;
+        font-size: 0.82rem;
+        padding: 3px 10px;
+        border-radius: 20px;
+        display: inline-block;
+    }
+
+    /* Nombre */
+    .nombre-candidato {
+        font-weight: 600;
+        color: #1a3a6b;
+    }
+
+    /* Foto */
+    .foto-candidato {
+        font-size: 0.85rem;
+        color: #64748b;
+    }
+
+    /* Botón votar */
+    .btn-votar {
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        border-radius: 7px;
+        padding: 7px 18px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        font-family: inherit;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: background 0.2s, transform 0.15s;
+    }
+
+        .btn-votar:hover {
+            background: #1d4ed8;
+            color: #ffffff;
+            transform: translateY(-1px);
+            text-decoration: none;
+        }
+
+        .btn-votar:active {
+            transform: translateY(0);
+        }
+
+    /* Sin candidatos */
+    .sin-datos {
+        text-align: center;
+        padding: 3rem;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(26,58,107,0.08);
+        color: #64748b;
+    }
+</style>
+
+<!-- Cabecera -->
+<div class="page-header">
+    <h2>🗳️ Lista de Candidatos</h2>
+    <span style="color:rgba(255,255,255,0.7); font-size:0.85rem;">Selecciona un candidato para votar</span>
+</div>
+
+<!-- Bienvenida -->
+<div class="bienvenido">
+    👋 Bienvenido, <strong>@TempData["Nombre"]</strong>
+</div>
+
+<!-- Tabla -->
+@if (Model != null && Model.Count > 0)
+{
+    <table class="tabla-candidatos">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Foto</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><span class="id-badge">#@item.IdCandidato</span></td>
+                    <td><span class="nombre-candidato">@item.Nombre</span></td>
+                    <td><span class="foto-candidato">@item.Foto</span></td>
+                    <td>
+                        <a asp-action="Votar"
+                               asp-route-id="@item.IdCandidato"
+                               class="btn-votar">
+                            ✔ Votar
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="sin-datos">
+        <div style="font-size:2.5rem; margin-bottom:1rem;">📋</div>
+        <p style="font-weight:500;">No hay candidatos registrados.</p>
+    </div>
+}

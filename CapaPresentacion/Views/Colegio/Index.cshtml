@@ -1,0 +1,266 @@
+﻿@model List<CapaEntidad.Colegio>
+
+@{
+    ViewData["Title"] = "Seleccionar Colegio";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voto Seguro — Seleccionar Colegio</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f2352 0%, #1a3a6b 55%, #2563eb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+            width: 100%;
+            max-width: 520px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #1a3a6b, #2563eb);
+            padding: 32px 32px 24px;
+            text-align: center;
+        }
+
+        .escudo {
+            width: 64px;
+            height: 64px;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            font-size: 28px;
+        }
+
+        .card-header h1 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .card-header p {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .barra-dorada {
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b);
+        }
+
+        .card-body {
+            padding: 28px 32px 32px;
+        }
+
+        .subtitulo {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        /* Grupo por nivel */
+        .nivel-grupo {
+            margin-bottom: 20px;
+        }
+
+        .nivel-titulo {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .nivel-Primaria   { background: #dcfce7; color: #15803d; }
+        .nivel-Secundaria { background: #dbeafe; color: #1d4ed8; }
+        .nivel-Superior   { background: #fef3c7; color: #b45309; }
+        .nivel-otro       { background: #f1f5f9; color: #475569; }
+
+        /* Item colegio */
+        .lista-colegios {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .colegio-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8faff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 13px 16px;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s, transform 0.15s;
+            font-family: inherit;
+            text-align: left;
+        }
+
+        .colegio-btn:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+            transform: translateY(-1px);
+        }
+
+        .colegio-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .colegio-icono {
+            width: 38px;
+            height: 38px;
+            background: #dbeafe;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .colegio-nombre {
+            font-weight: 600;
+            color: #1a3a6b;
+            font-size: 0.92rem;
+            display: block;
+        }
+
+        .colegio-dir {
+            font-size: 0.78rem;
+            color: #94a3b8;
+            display: block;
+            margin-top: 1px;
+        }
+
+        .colegio-flecha {
+            color: #cbd5e1;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .colegio-btn:hover .colegio-flecha {
+            color: #2563eb;
+        }
+
+        .card-footer {
+            background: #f8faff;
+            border-top: 1px solid #e2e8f0;
+            padding: 12px 32px;
+            text-align: center;
+            font-size: 0.78rem;
+            color: #94a3b8;
+        }
+
+        .sin-datos {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+
+    <div class="card-header">
+        <div class="escudo">🛡️</div>
+        <h1>Voto Seguro</h1>
+        <p>Sistema de Votación Estudiantil</p>
+    </div>
+
+    <div class="barra-dorada"></div>
+
+    <div class="card-body">
+
+        <p class="subtitulo">🏫 Selecciona tu colegio</p>
+
+        @if (Model != null && Model.Count > 0)
+        {
+            var niveles = new[] { "Primaria", "Secundaria", "Superior" };
+
+            foreach (var nivel in niveles)
+            {
+                var colegiosNivel = Model.Where(c => c.Nivel == nivel).ToList();
+                if (colegiosNivel.Count == 0) continue;
+
+                <div class="nivel-grupo">
+                    <span class="nivel-titulo nivel-@nivel">@nivel</span>
+                    <div class="lista-colegios">
+                        @foreach (var item in colegiosNivel)
+                        {
+                            <form method="post" asp-action="Seleccionar">
+                                <input type="hidden" name="idColegio"     value="@item.IdColegio" />
+                                <input type="hidden" name="nombreColegio" value="@item.Nombre" />
+                                <button type="submit" class="colegio-btn">
+                                    <div class="colegio-info">
+                                        <div class="colegio-icono">🏫</div>
+                                        <div>
+                                            <span class="colegio-nombre">@item.Nombre</span>
+                                            @if (!string.IsNullOrWhiteSpace(item.Direccion))
+                                            {
+                                                <span class="colegio-dir">📍 @item.Direccion</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <span class="colegio-flecha">→</span>
+                                </button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="sin-datos">
+                <div style="font-size:2rem; margin-bottom:8px;">🏫</div>
+                <p>No hay colegios registrados.</p>
+            </div>
+        }
+
+    </div>
+
+    <div class="card-footer">
+        🔐 Acceso exclusivo para estudiantes registrados
+    </div>
+
+</div>
+
+</body>
+</html>

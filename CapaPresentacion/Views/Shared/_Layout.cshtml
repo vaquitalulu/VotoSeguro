@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Voto Seguro</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CapaPresentacion.styles.css" asp-append-version="true" />
+    <style>
+            html, body {
+                height: 100%;
+            }
+
+            body {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #f0f4ff;
+                color: #1e293b;
+            }
+
+            /* ── Navbar ── */
+            .navbar-votoseguro {
+                background: linear-gradient(135deg, #1a3a6b, #2563eb);
+                box-shadow: 0 2px 16px rgba(26,58,107,0.18);
+                padding: 0.7rem 1.5rem;
+            }
+
+                .navbar-votoseguro .navbar-brand {
+                    font-size: 1.25rem;
+                    font-weight: 800;
+                    color: #ffffff !important;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    letter-spacing: -0.3px;
+                }
+
+                    .navbar-votoseguro .navbar-brand .brand-icon {
+                        width: 36px;
+                        height: 36px;
+                        background: rgba(255,255,255,0.15);
+                        border: 2px solid rgba(255,255,255,0.3);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 16px;
+                    }
+
+                .navbar-votoseguro .nav-link {
+                    color: rgba(255,255,255,0.8) !important;
+                    font-weight: 500;
+                    font-size: 0.9rem;
+                    transition: color 0.2s;
+                }
+
+                    .navbar-votoseguro .nav-link:hover {
+                        color: #ffffff !important;
+                    }
+
+                .navbar-votoseguro .navbar-toggler {
+                    border-color: rgba(255,255,255,0.3);
+                }
+
+                .navbar-votoseguro .navbar-toggler-icon {
+                    filter: invert(1);
+                }
+
+            /* ── Barra dorada bajo navbar ── */
+            .barra-dorada {
+                height: 4px;
+                background: linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b);
+            }
+
+            /* ── Contenido ── */
+            .main-container {
+                padding: 2rem 1rem;
+                flex: 1;
+            }
+
+            /* ── Footer ── */
+            .footer-votoseguro {
+                background: linear-gradient(135deg, #1a3a6b, #2563eb);
+                color: rgba(255,255,255,0.7);
+                text-align: center;
+                padding: 1rem;
+                font-size: 0.82rem;
+                margin-top: 3rem;
+            }
+
+                .footer-votoseguro a {
+                    color: #fbbf24;
+                    text-decoration: none;
+                }
+
+                    .footer-votoseguro a:hover {
+                        text-decoration: underline;
+                    }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-votoseguro">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <div class="brand-icon">🛡️</div>
+                    Voto Seguro
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">🏠 Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Candidato" asp-action="Index">🗳️ Candidatos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Resultado" asp-action="Index">📊 Resultados</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="barra-dorada"></div>
+    </header>
+
+    <!-- Contenido principal -->
+    <div class="container main-container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-votoseguro">
+        🔐 &copy; 2026 - Voto Seguro — Sistema de Votación Estudiantil
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
